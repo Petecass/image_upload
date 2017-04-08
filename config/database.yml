@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  pool: 2
+
+development:
+  <<: *default
+  database: image_upload_dev
+
+test:
+  <<: *default
+  database: image_upload_test
+
+production:
+  <<: *default
+  database: image_upload_prod
