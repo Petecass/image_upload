@@ -1,5 +1,7 @@
 require 'sinatra/activerecord'
 require 'pg'
+require 'dotenv'
+Dotenv.load
 
 RACK_ENV ||= ENV['RACK_ENV'] || 'development'
 

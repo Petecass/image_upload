@@ -3,14 +3,14 @@ require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 describe 'My Sinatra Application' do
   describe 'GET /images' do
     before do
-      5.times { create(:image) }
+      3.times { create(:image) }
       get '/images'
     end
 
     it 'returns a json representation of all images' do
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'
-      expect(JSON.parse(last_response.body).size).to eq 5
+      expect(JSON.parse(last_response.body).size).to eq 3
     end
   end
 
@@ -73,7 +73,7 @@ describe 'My Sinatra Application' do
       it 'returns a json representation of the updated image' do
         returned_id = JSON.parse(last_response.body)['id']
         updated_image = Image.find(returned_id)
-        expect(last_response.body).to eq updated_image.to_json
+        expect(JSON.parse(last_response.body)['title']).to eq updated_image.title
         expect(updated_image.title).to eq image_attributes[:title]
       end
 

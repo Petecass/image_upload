@@ -1,8 +1,24 @@
 class Image < ActiveRecord::Base
+  include Paperclip::Glue
+
   has_many :taggings
   has_many :tags, through: :taggings
 
   validates :title, presence: true
+
+  has_attached_file :image,
+                    styles: { square: '1000x1000',
+                              thumb: '50x50',
+                              greyscale: { convert_options: '-colorspace Gray' } },
+                    storage: :s3,
+                    s3_region: ENV['AWS_REGION'],
+                    s3_host_name: ENV['AWS_HOST_NAME'],
+                    s3_credentials: { access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+                                      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'] },
+                    bucket: ENV['S3_BUCKET']
+
+  validates_attachment :image,
+                       content_type: { content_type: ['image/jpeg', 'image/png'] }
 
   def all_tags=(names)
     self.tags = names.split(',').map do |name|

@@ -13,4 +13,17 @@ RSpec.describe Image, type: :model do
 
     it { is_expected.to validate_presence_of(:title) }
   end
+
+  describe 'Image Processing' do
+    let(:image) { build(:image, :with_attachment) }
+
+    it 'creates variations of the image' do
+      image.save
+      image.reload
+      expect(image.image.url(:square)).to be
+      expect(image.image.url(:original)).to be
+      expect(image.image.url(:greyscale)).to be
+      expect(image.image.url(:thumb)).to be
+    end
+  end
 end
