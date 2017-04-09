@@ -5,6 +5,13 @@ RSpec.describe Tag, type: :model do
     let(:tag) { build(:tag) }
     subject { tag }
 
-    it { is_expected.to belong_to(:image) }
+    it { is_expected.to have_many(:images).through(:taggings) }
+  end
+
+  describe 'Validations' do
+    let(:tag) { build(:tag) }
+    subject { tag }
+
+    it { is_expected.to validate_presence_of(:name) }
   end
 end

@@ -15,6 +15,19 @@ describe 'My Sinatra Application' do
   end
 
   describe 'POST /images' do
+    context 'successful creation with tags' do
+      let(:image_attributes) { attributes_for(:image, tags: ['candid', 'urban']) }
+
+      before do
+        post '/images', image: image_attributes
+      end
+
+      it 'creates the tags' do
+        returned_id = JSON.parse(last_response.body)['id']
+        expect(Image.find(returned_id).tags.count).to eq 2
+      end
+    end
+
     context 'successful creation' do
       let(:image_attributes) { attributes_for(:image) }
 

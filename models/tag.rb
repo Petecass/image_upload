@@ -1,3 +1,6 @@
 class Tag < ActiveRecord::Base
-  belongs_to :image
+  has_many :taggings
+  has_many :images, through: :taggings
+
+  validates :name, presence: true
 end
