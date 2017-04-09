@@ -8,6 +8,7 @@ require 'factory_girl'
 require 'shoulda-matchers'
 require 'faker'
 require 'database_cleaner'
+require 'pry'
 
 Dir[File.dirname(__FILE__) + '/factories/*.rb'].each { |file| require file }
 set :environment, :test
@@ -38,5 +39,6 @@ Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec
     with.library :active_record
+    with.library :active_model
   end
 end

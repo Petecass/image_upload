@@ -6,4 +6,11 @@ RSpec.describe Image, type: :model do
     subject { image }
     it { is_expected.to have_many(:tags) }
   end
+
+  describe 'Validations' do
+    let(:image) { build(:image) }
+    subject { image }
+
+    it { is_expected.to validate_presence_of(:title) }
+  end
 end
