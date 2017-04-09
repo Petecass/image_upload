@@ -8,6 +8,7 @@ require 'factory_girl'
 require 'shoulda-matchers'
 require 'faker'
 require 'database_cleaner'
+require 'paperclip/matchers'
 require 'pry'
 
 Dir[File.dirname(__FILE__) + '/factories/*.rb'].each { |f| require f }
@@ -18,6 +19,7 @@ RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include FactoryGirl::Syntax::Methods
   config.include Request::JsonHelpers, type: :controller
+  config.include Paperclip::Shoulda::Matchers
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation

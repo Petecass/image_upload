@@ -12,6 +12,12 @@ RSpec.describe Image, type: :model do
     subject { image }
 
     it { is_expected.to validate_presence_of(:title) }
+    it { is_expected.to have_attached_file(:image) }
+    it do
+      is_expected.to validate_attachment_content_type(:image)
+        .allowing('image/png', 'image/jpg')
+        .rejecting('text/plain', 'text/xml')
+    end
   end
 
   describe 'Image Processing' do

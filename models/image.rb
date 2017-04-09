@@ -18,7 +18,7 @@ class Image < ActiveRecord::Base
                     bucket: ENV['S3_BUCKET']
 
   validates_attachment :image,
-                       content_type: { content_type: ['image/jpeg', 'image/png'] }
+                       content_type: { content_type: ['image/jpeg', 'image/jpg', 'image/png'] }
 
   def all_tags=(names)
     self.tags = names.split(',').map do |name|
