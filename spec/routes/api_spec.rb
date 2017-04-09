@@ -29,7 +29,9 @@ RSpec.describe 'Api functionality', type: :controller do
     end
 
     context 'successful creation' do
-      let(:image_attributes) { attributes_for(:image) }
+      let(:file) { File.open(File.join(File.dirname(__FILE__), '..', 'factories', 'test.jpg')) }
+      let(:encoded_image) { Base64.encode64(file.read) }
+      let(:image_attributes) { attributes_for(:image, image: "data:image/jpg;base64,#{encoded_image}") }
 
       before do
         post '/images', { image: image_attributes }.to_json, format: :json
