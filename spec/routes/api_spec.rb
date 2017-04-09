@@ -16,7 +16,7 @@ describe 'My Sinatra Application' do
 
   describe 'POST /images' do
     context 'successful creation with tags' do
-      let(:image_attributes) { attributes_for(:image, tags: ['candid', 'urban']) }
+      let(:image_attributes) { attributes_for(:image, all_tags: 'candid, urban') }
 
       before do
         post '/images', image: image_attributes
@@ -142,6 +142,26 @@ describe 'My Sinatra Application' do
   end
 
   describe 'GET /search' do
+    before do
+      create(:image, all_tags: 'candid')
+      create(:image, all_tags: 'urban')
+      create(:image, all_tags: 'candid')
+    end
 
+    context 'when tag is present' do
+      it 'returns an array of matching images' do
+        get '/search', tag: 'candid'
+        expect(JSON.parse(last_response.body).count).to eq 2
+        expect(last_response.status).to eq 200
+      end
+    end
+
+    context 'when tag is not present' do
+      it 'returns an array of matching images' do
+        get '/search'
+        expect(JSON.parse(last_response.body).count).to eq 3
+        expect(last_response.status).to eq 200
+      end
+    end
   end
 end

@@ -4,11 +4,13 @@ class App
     content_type 'application/json'
   end
 
+  # Index
   get '/images' do
     status 200
     Image.all.to_json
   end
 
+  # Show
   get '/images/:id' do
     if (image = Image.find_by(id: params[:id]))
       image.to_json
@@ -18,6 +20,7 @@ class App
     end
   end
 
+  # Create
   post '/images' do
     image = Image.new(params[:image])
     if image.save
@@ -29,6 +32,7 @@ class App
     end
   end
 
+  # Update
   put '/images/:id' do
     image = Image.find_by(id: params[:id])
     halt 404 if image.nil?
@@ -42,8 +46,18 @@ class App
     end
   end
 
+  # Destroy
   delete '/images/:id' do
     Image.destroy(params[:id])
     status 204
+  end
+
+  # Search
+  get '/search' do
+    if params[:tag]
+      Image.tagged_with(params[:tag]).to_json
+    else
+      Image.all.to_json
+    end
   end
 end

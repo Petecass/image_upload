@@ -24,11 +24,11 @@ ActiveRecord::Schema.define(version: 20170409130639) do
   end
 
   create_table "taggings", force: :cascade do |t|
-    t.integer  "post_id"
+    t.integer  "image_id"
     t.integer  "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_taggings_on_post_id", using: :btree
+    t.index ["image_id"], name: "index_taggings_on_image_id", using: :btree
     t.index ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
   end
 

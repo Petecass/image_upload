@@ -11,6 +11,10 @@ class Image < ActiveRecord::Base
   end
 
   def all_tags
-    self.tags.map(&:name).join(', ')
+    tags.map(&:name).join(', ')
+  end
+
+  def self.tagged_with(name)
+    Tag.find_by(name: name).images
   end
 end
