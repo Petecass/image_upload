@@ -10,23 +10,25 @@ require 'faker'
 require 'database_cleaner'
 require 'pry'
 
-Dir[File.dirname(__FILE__) + '/factories/*.rb'].each { |file| require file }
+Dir[File.dirname(__FILE__) + '/factories/*.rb'].each { |f| require f }
+Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 set :environment, :test
 
-RSpec.configure do |conf|
-  conf.include Rack::Test::Methods
-  conf.include FactoryGirl::Syntax::Methods
+RSpec.configure do |config|
+  config.include Rack::Test::Methods
+  config.include FactoryGirl::Syntax::Methods
+  config.include Request::JsonHelpers, type: :controller
 
-  conf.before(:suite) do
+  config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  conf.before(:each) do
+  config.before(:each) do
     DatabaseCleaner.start
   end
 
-  conf.after(:each) do
+  config.after(:each) do
     DatabaseCleaner.clean
   end
 end

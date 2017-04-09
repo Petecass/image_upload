@@ -1,5 +1,4 @@
 class App
-
   before do
     content_type 'application/json'
   end
@@ -22,7 +21,8 @@ class App
 
   # Create
   post '/images' do
-    image = Image.new(params[:image])
+    data = JSON.parse(request.body.read)
+    image = Image.new(data['image'])
     if image.save
       status 201
       image.to_json
@@ -37,7 +37,8 @@ class App
     image = Image.find_by(id: params[:id])
     halt 404 if image.nil?
 
-    if image.update(params[:image])
+    data = JSON.parse(request.body.read)
+    if image.update(data['image'])
       status 200
       image.to_json
     else
@@ -53,7 +54,7 @@ class App
   end
 
   # Search
-  get '/search' do
+  get '/search/?:tag?' do
     if params[:tag]
       Image.tagged_with(params[:tag]).to_json
     else
