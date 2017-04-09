@@ -4,7 +4,7 @@ RSpec.describe Image, type: :model do
   describe 'Associations' do
     let(:image) { build(:image) }
     subject { image }
-    it { is_expected.to have_many(:tags).through(:taggings) }
+    it { is_expected.to have_many(:tags).through(:taggings).dependent(:destroy) }
   end
 
   describe 'Validations' do

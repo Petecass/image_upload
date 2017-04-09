@@ -2,15 +2,17 @@ class Image < ActiveRecord::Base
   include Paperclip::Glue
 
   has_many :taggings
-  has_many :tags, through: :taggings
+  has_many :tags, through: :taggings, dependent: :destroy
 
   validates :title, presence: true
 
   has_attached_file :image,
-                    styles: { square: '1000x1000',
-                              thumb: '50x50',
+                    # Using bang ignores aspect ratio
+                    styles: { square: '1000x1000!',
+                              thumb: '50x50!',
                               greyscale: { convert_options: '-colorspace Gray' } },
                     storage: :s3,
+                    s3_protocol: 'https',
                     s3_region: ENV['AWS_REGION'],
                     s3_host_name: ENV['AWS_HOST_NAME'],
                     s3_credentials: { access_key_id: ENV['AWS_ACCESS_KEY_ID'],
@@ -19,6 +21,15 @@ class Image < ActiveRecord::Base
 
   validates_attachment :image,
                        content_type: { content_type: ['image/jpeg', 'image/jpg', 'image/png'] }
+
+  # Overides default #to_json method
+  def as_json(options = {})
+    super({
+      only: [:id, :title, :author],
+      include: { tags: { only: [:id, :name] } },
+      methods: [:thumbnail, :square, :greyscale]
+    }.merge(options))
+  end
 
   def all_tags=(names)
     self.tags = names.split(',').map do |name|
@@ -30,14 +41,6 @@ class Image < ActiveRecord::Base
     tags.map(&:name).join(', ')
   end
 
-  def as_json(options = {})
-    super({
-      only: [:id, :title, :author],
-      include: { tags: { only: [:id, :name] } },
-      methods: [:thumbnail, :square, :greyscale]
-    }.merge(options))
-  end
-
   def self.tagged_with(name)
     Tag.find_by(name: name).images
   end
@@ -45,7 +48,7 @@ class Image < ActiveRecord::Base
   private
 
   def thumbnail
-    image.url(:thumbnail)
+    image.url(:thumb)
   end
 
   def square

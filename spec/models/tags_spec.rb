@@ -5,7 +5,7 @@ RSpec.describe Tag, type: :model do
     let(:tag) { build(:tag) }
     subject { tag }
 
-    it { is_expected.to have_many(:images).through(:taggings) }
+    it { is_expected.to have_many(:images).through(:taggings).dependent(:destroy) }
   end
 
   describe 'Validations' do
