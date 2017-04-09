@@ -30,7 +30,29 @@ class Image < ActiveRecord::Base
     tags.map(&:name).join(', ')
   end
 
+  def as_json(options = {})
+    super({
+      only: [:id, :title, :author],
+      include: { tags: { only: [:id, :name] } },
+      methods: [:thumbnail, :square, :greyscale]
+    }.merge(options))
+  end
+
   def self.tagged_with(name)
     Tag.find_by(name: name).images
+  end
+
+  private
+
+  def thumbnail
+    image.url(:thumbnail)
+  end
+
+  def square
+    image.url(:square)
+  end
+
+  def greyscale
+    image.url(:greyscale)
   end
 end
