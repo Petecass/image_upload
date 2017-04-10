@@ -38,6 +38,7 @@ RSpec.describe 'Api functionality', type: :controller do
       end
 
       it 'returns a json representation of the image' do
+        binding.pry
         returned_id = json_response[:id]
         expect(last_response.body).to eq Image.find(returned_id).to_json
       end
