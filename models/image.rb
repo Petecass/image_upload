@@ -7,7 +7,7 @@ class Image < ActiveRecord::Base
   validates :title, presence: true
 
   has_attached_file :image,
-                    # Using bang ignores aspect ratio
+                    # Use bang to ignore aspect ratio
                     styles: { square: '1000x1000!',
                               thumb: '50x50!',
                               greyscale: { convert_options: '-colorspace Gray' } },

@@ -5,12 +5,12 @@ ruby '2.3.1'
 gem 'activerecord'
 gem 'aws-sdk'
 gem 'dotenv'
+gem 'faker'
 gem 'paperclip'
 gem 'pg'
 gem 'rake'
 gem 'sinatra'
 gem 'sinatra-activerecord'
-gem 'faker'
 
 group :test do
   gem 'database_cleaner'

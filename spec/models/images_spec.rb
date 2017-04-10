@@ -21,15 +21,13 @@ RSpec.describe Image, type: :model do
   end
 
   describe 'Image Processing' do
-    let(:image) { build(:image, :with_attachment) }
+    let(:image) { create(:image, :with_attachment) }
 
-    it 'creates variations of the image' do
-      image.save
-      image.reload
-      expect(image.image.url(:square)).to be
-      expect(image.image.url(:original)).to be
-      expect(image.image.url(:greyscale)).to be
-      expect(image.image.url(:thumb)).to be
+    it 'creates variations of the image and provides url to s3' do
+      expect(image.image.url(:square)).to include("https://#{ENV['AWS_HOST_NAME']}/")
+      expect(image.image.url(:original)).to include("https://#{ENV['AWS_HOST_NAME']}/")
+      expect(image.image.url(:greyscale)).to include("https://#{ENV['AWS_HOST_NAME']}/")
+      expect(image.image.url(:thumb)).to include("https://#{ENV['AWS_HOST_NAME']}/")
     end
   end
 end

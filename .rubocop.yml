@@ -1,4 +1,6 @@
 AllCops:
+  Exclude:
+    - db/schema.rb
   DisplayCopNames: true
 Documentation:
   Enabled: false
