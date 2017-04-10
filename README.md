@@ -2,15 +2,14 @@
 Basic Image Upload to S3 with Sinatra
 ================
 
-Live on Heroku at https://aqueous-tor-70733.herokuapp.com/images
+### To setup on local machine:
 
-### Requirements:
+#### Requirements:
 
 - ImageMagick see [here](https://github.com/thoughtbot/paperclip/blob/master/README.md#image-processor) for installation
 - [Postgres](https://www.postgresql.org/download/macosx/)
 
-To setup on local machine:
-
+#### Steps:
 - `bundle install`
 - `rake db:schema:load`
 - `rake db:seed` if you want to seed the database.
