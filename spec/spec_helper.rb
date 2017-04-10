@@ -21,6 +21,11 @@ RSpec.configure do |config|
   config.include Request::JsonHelpers, type: :controller
   config.include Paperclip::Shoulda::Matchers
 
+  # Skips saving to s3 in specs
+  config.before(:each) do
+    allow_any_instance_of(Paperclip::Attachment).to receive(:save).and_return(true)
+  end
+
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
