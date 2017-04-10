@@ -15,6 +15,7 @@ To setup on local machine:
 - `rake db:schema:load`
 - `rake db:seed` if you want to seed the database.
 - `rackup config.ru` will run the server locally
+- `rspec spec` will run all tests
 
 -------------------------------------------------------------------------
 
