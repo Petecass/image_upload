@@ -2,7 +2,7 @@
 Basic Image Upload to S3 with Sinatra
 ================
 
-Live on Heroku at https://aqueous-tor-70733.herokuapp.com/
+Live on Heroku at https://aqueous-tor-70733.herokuapp.com/images
 
 ### Requirements:
 
@@ -19,6 +19,8 @@ To setup on local machine:
 -------------------------------------------------------------------------
 
 ## API Documentation
+
+This API only consumes JSON, all requests should be encoded as such.
 
 ### POST /images
 
