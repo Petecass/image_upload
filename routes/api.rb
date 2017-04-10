@@ -1,4 +1,14 @@
 class App
+  helpers do
+    def json_error(code, reason)
+      status code
+      {
+        errors: reason,
+        status: code
+      }.to_json
+    end
+  end
+
   before do
     content_type 'application/json'
   end
@@ -14,8 +24,7 @@ class App
     if (image = Image.find_by(id: params[:id]))
       image.to_json
     else
-      status 404
-      { errors: 'That Image doesn\'t exist' }.to_json
+      json_error 404, 'That Image doesn\'t exist'
     end
   end
 
@@ -27,8 +36,7 @@ class App
       status 201
       image.to_json
     else
-      status 422
-      { errors: image.errors.full_messages.join(',') }.to_json
+      json_error 422, image.errors.full_messages.join(',')
     end
   end
 
@@ -42,8 +50,7 @@ class App
       status 200
       image.to_json
     else
-      status 422
-      { errors: image.errors.full_messages.join(',') }.to_json
+      json_error 422, image.errors.full_messages.join(',')
     end
   end
 
@@ -60,5 +67,26 @@ class App
     else
       Image.all.to_json
     end
+  end
+
+  # misc handlers: error, etc.
+  get '*' do
+    status 404
+  end
+
+  post '*' do
+    status 404
+  end
+
+  put '*' do
+    status 404
+  end
+
+  delete '*' do
+    status 404
+  end
+
+  error do
+    json_error 500, env['sinatra.error'].message
   end
 end
