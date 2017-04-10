@@ -25,7 +25,7 @@ This API only consumes JSON, all requests should be encoded as such.
 ### POST /images
 
 ```JSON
-POST /shorten
+POST /images
 Content-Type: "application/json"
 
 {

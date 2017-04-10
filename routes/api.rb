@@ -63,7 +63,7 @@ class App
   # Search
   get '/search/?:tag?' do
     if params[:tag]
-      Image.tagged_with(params[:tag]).to_json
+      Image.tagged_with(params[:tag].downcase).to_json
     else
       Image.all.to_json
     end
